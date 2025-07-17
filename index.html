@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decky Sprunki</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        /* Sidebar transition */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Mobile sidebar transition */
+        #mobile-sidebar {
+             transition: transform 0.3s ease-in-out;
+        }
+        /* Hide scrollbar for main content */
+        main::-webkit-scrollbar {
+            display: none;
+        }
+        main {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+    <script>
+        // Tailwind dark mode configuration
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-black text-gray-900 dark:text-gray-100 h-screen overflow-hidden">
+
+    <div class="flex h-full">
+        <!-- Desktop Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 flex-col hidden xl:flex">
+            <div class="px-6 py-4">
+                <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">Decky Sprunki</h1>
+            </div>
+            <nav id="desktop-nav" class="flex-grow p-4 space-y-2">
+                <!-- Navigation items will be dynamically managed -->
+            </nav>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="https://www.youtube.com/channel/UCmCMvHoodruducPzofMz-kg" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C11.2,5.16 12.81,5 15,5L15.84,5.06C16.44,5.06 17.13,5.09 17.93,5.16C18.73,5.22 19.36,5.31 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"></path></svg>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar -->
+        <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden xl:hidden"></div>
+        <aside id="mobile-sidebar" class="fixed top-0 left-0 w-64 bg-white dark:bg-gray-900 h-full z-50 transform -translate-x-full xl:hidden flex flex-col">
+             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">Decky Sprunki</h1>
+                <button id="close-sidebar-btn" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <nav id="mobile-nav" class="flex-grow p-4 space-y-2">
+                <!-- Mobile navigation items will be dynamically managed -->
+            </nav>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="https://www.youtube.com/channel/UCmCMvHoodruducPzofMz-kg" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors">
+                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C11.2,5.16 12.81,5 15,5L15.84,5.06C16.44,5.06 17.13,5.09 17.93,5.16C18.73,5.22 19.36,5.31 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"></path></svg>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top Bar -->
+            <header class="flex-shrink-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between p-2 md:p-3">
+                    <!-- Left Side -->
+                    <div class="flex items-center space-x-2">
+                        <button id="menu-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 xl:hidden">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                        <button id="desktop-menu-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 hidden xl:inline-flex">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="flex-1 mx-4">
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                            <input id="search-bar" type="text" placeholder="Search private comments..." class="w-full bg-gray-100 dark:bg-gray-800 border border-transparent rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+
+                    <!-- Right Side -->
+                    <div class="flex items-center space-x-1 md:space-x-2">
+                        <button id="copy-link-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" title="Copy Link">
+                            <span class="material-symbols-outlined text-xl">link</span>
+                        </button>
+                        <button id="page-fullscreen-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" title="Fullscreen">
+                            <span class="material-symbols-outlined text-xl">fullscreen</span>
+                        </button>
+                         <a href="https://www.youtube.com/channel/UCmCMvHoodruducPzofMz-kg" target="_blank" rel="noopener noreferrer" id="youtube-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center space-x-1" title="YouTube Channel">
+                            <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C11.2,5.16 12.81,5 15,5L15.84,5.06C16.44,5.06 17.13,5.09 17.93,5.16C18.73,5.22 19.36,5.31 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"></path></svg>
+                            <span class="hidden lg:inline">YouTube</span>
+                        </a>
+                        <button id="dark-mode-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center space-x-1" title="Toggle Dark Mode">
+                           <span class="material-symbols-outlined text-xl">dark_mode</span>
+                           <span class="hidden md:inline">Theme</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto relative">
+                <div id="game-view" class="w-full h-full relative">
+                    <iframe id="game-frame" src="" frameborder="0" allow="fullscreen" allowfullscreen class="absolute top-0 left-0 w-full h-full transition-opacity duration-500 opacity-0"></iframe>
+                    <button id="game-fullscreen-btn" class="absolute bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all z-10 flex items-center space-x-2">
+                        <span class="material-symbols-outlined">fullscreen</span>
+                        <span>Fullscreen Game</span>
+                    </button>
+                </div>
+
+                <div id="comments-view" class="p-4 md:p-6 lg:p-8 hidden">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-3xl font-bold mb-6">Private Comments</h2>
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-8">
+                            <textarea id="comment-input" class="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="What's on your mind?"></textarea>
+                            <div class="flex justify-end mt-3">
+                                <button id="post-comment-btn" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">Post Comment</button>
+                            </div>
+                        </div>
+                        <div id="comments-list">
+                            <!-- Comments will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+                 <div id="welcome-view" class="p-4 md:p-6 lg:p-8">
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-center">
+                            <h2 class="text-4xl font-bold mb-4">Welcome to Decky Sprunki!</h2>
+                            <p class="text-xl text-gray-600 dark:text-gray-400">Select a game from the sidebar to begin.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 max-w-sm w-full mx-4">
+            <h3 class="text-xl font-semibold mb-4" id="modal-title">Confirm Action</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6" id="modal-body">Are you sure you want to proceed?</p>
+            <div class="flex justify-end space-x-4">
+                <button id="modal-cancel-btn" class="px-6 py-2 rounded-md bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Cancel</button>
+                <button id="modal-confirm-btn" class="px-6 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Copy Link Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-5 py-3 rounded-lg shadow-lg opacity-0 translate-y-3 transition-all duration-300">
+        Link copied to clipboard!
+    </div>
+
+
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM ELEMENTS ---
+            const sidebar = document.getElementById('sidebar');
+            const mobileSidebar = document.getElementById('mobile-sidebar');
+            const mobileSidebarOverlay = document.getElementById('mobile-sidebar-overlay');
+            const menuBtn = document.getElementById('menu-btn');
+            const desktopMenuBtn = document.getElementById('desktop-menu-btn');
+            const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+            
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            
+            const gameView = document.getElementById('game-view');
+            const commentsView = document.getElementById('comments-view');
+            const welcomeView = document.getElementById('welcome-view');
+            const gameFrame = document.getElementById('game-frame');
+            
+            const copyLinkBtn = document.getElementById('copy-link-btn');
+            const toast = document.getElementById('toast');
+            const pageFullscreenBtn = document.getElementById('page-fullscreen-btn');
+            const gameFullscreenBtn = document.getElementById('game-fullscreen-btn');
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+
+            const commentInput = document.getElementById('comment-input');
+            const postCommentBtn = document.getElementById('post-comment-btn');
+            const commentsList = document.getElementById('comments-list');
+            const searchBar = document.getElementById('search-bar');
+            
+            const confirmModal = document.getElementById('confirm-modal');
+            const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+
+            // --- STATE & CONFIG ---
+            const views = {
+                'sprunki': { title: 'Sprunki', type: 'game', src: 'https://data.sprunki.one/game/sprunki/index.html', icon: 'stadia_controller' },
+                'sprunki-grown-up': { title: 'Sprunki Grown Up', type: 'game', src: 'https://data.sprunki.one/game/sprunki-grown-up/index.html', icon: 'sports_esports' },
+                'parodybox-sprunki': { title: 'Parodybox Sprunki', type: 'game', src: 'https://data.gameflare.com/games/10643/toimL7Yui6O2g8/index.html', icon: 'videogame_asset' },
+                'comments': { title: 'Private Comments', type: 'page', icon: 'comment' }
+            };
+
+            let comments = JSON.parse(localStorage.getItem('deckySprunkiComments')) || [];
+            let commentToDeleteId = null;
+
+            // --- INITIALIZATION ---
+            
+            // Dark Mode
+            if (localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            // Build navigation
+            const buildNav = (container) => {
+                container.innerHTML = '';
+                Object.entries(views).forEach(([id, view]) => {
+                    const navItem = document.createElement('a');
+                    navItem.className = 'flex items-center space-x-3 px-4 py-2 rounded-md cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors';
+                    navItem.dataset.viewId = id;
+                    navItem.innerHTML = `
+                        <span class="material-symbols-outlined">${view.icon}</span>
+                        <span>${view.title}</span>
+                    `;
+                    container.appendChild(navItem);
+                });
+            };
+            buildNav(desktopNav);
+            buildNav(mobileNav);
+
+            // --- FUNCTIONS ---
+            
+            const updateActiveNav = (viewId) => {
+                document.querySelectorAll('#desktop-nav a, #mobile-nav a').forEach(a => {
+                    a.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600', 'dark:text-blue-400', 'font-semibold');
+                    if (a.dataset.viewId === viewId) {
+                        a.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600', 'dark:text-blue-400', 'font-semibold');
+                    }
+                });
+            };
+            
+            const switchView = (viewId) => {
+                const view = views[viewId];
+                if (!view) return;
+
+                welcomeView.classList.add('hidden');
+                gameView.classList.add('hidden');
+                commentsView.classList.add('hidden');
+                searchBar.disabled = true;
+                searchBar.classList.add('opacity-50', 'cursor-not-allowed');
+
+                if (view.type === 'game') {
+                    gameView.classList.remove('hidden');
+                    gameFrame.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (gameFrame.src !== view.src) {
+                           gameFrame.src = view.src;
+                        }
+                        gameFrame.classList.remove('opacity-0');
+                    }, 50);
+                } else if (view.type === 'page') {
+                    commentsView.classList.remove('hidden');
+                    searchBar.disabled = false;
+                    searchBar.classList.remove('opacity-50', 'cursor-not-allowed');
+                    renderComments();
+                }
+                updateActiveNav(viewId);
+            };
+
+            const saveComments = () => {
+                localStorage.setItem('deckySprunkiComments', JSON.stringify(comments));
+            };
+            
+            const renderComments = (filter = '') => {
+                commentsList.innerHTML = '';
+                const filteredComments = comments.filter(c => c.text.toLowerCase().includes(filter.toLowerCase()));
+
+                if (filteredComments.length === 0 && comments.length > 0) {
+                     commentsList.innerHTML = `<p class="text-center text-gray-500">No comments match your search.</p>`;
+                } else if (comments.length === 0) {
+                     commentsList.innerHTML = `<p class="text-center text-gray-500">No comments yet. Be the first to post!</p>`;
+                } else {
+                    filteredComments.sort((a, b) => b.id - a.id).forEach(comment => {
+                        const commentEl = document.createElement('div');
+                        commentEl.className = 'bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-4 flex flex-col comment-card';
+                        commentEl.dataset.text = comment.text.toLowerCase();
+                        commentEl.innerHTML = `
+                            <p class="text-gray-800 dark:text-gray-200 flex-grow mb-4">${comment.text.replace(/\n/g, '<br>')}</p>
+                            <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-3">
+                                <span class="text-xs">${new Date(comment.id).toLocaleString()}</span>
+                                <div class="flex items-center space-x-4">
+                                    <button class="flex items-center space-x-1 hover:text-green-500 action-btn" data-action="like" data-id="${comment.id}">
+                                        <span class="material-symbols-outlined text-base">thumb_up</span>
+                                        <span>${comment.likes || 0}</span>
+                                    </button>
+                                    <button class="flex items-center space-x-1 hover:text-orange-500 action-btn" data-action="dislike" data-id="${comment.id}">
+                                        <span class="material-symbols-outlined text-base">thumb_down</span>
+                                        <span>${comment.dislikes || 0}</span>
+                                    </button>
+                                    <button class="hover:text-red-500 action-btn" data-action="delete" data-id="${comment.id}">
+                                        <span class="material-symbols-outlined text-base">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        commentsList.appendChild(commentEl);
+                    });
+                }
+            };
+
+            const showModal = (id) => {
+                commentToDeleteId = id;
+                confirmModal.classList.remove('hidden');
+            };
+            
+            const hideModal = () => {
+                commentToDeleteId = null;
+                confirmModal.classList.add('hidden');
+            };
+
+            // --- [FIXED] More robust copy-to-clipboard function ---
+            const copyToClipboard = (text) => {
+                // Create a temporary textarea element
+                const input = document.createElement('textarea');
+                input.style.position = 'fixed';
+                input.style.opacity = 0;
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                
+                try {
+                    // Use the older execCommand which is more reliable in iframes
+                    document.execCommand('copy');
+                    toast.textContent = 'Link copied to clipboard!';
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    toast.textContent = 'Failed to copy link!';
+                }
+                
+                // Cleanup the temporary element
+                document.body.removeChild(input);
+
+                // Show the toast notification
+                toast.classList.remove('opacity-0', 'translate-y-3');
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-y-3');
+                }, 2000);
+            };
+
+            // --- EVENT LISTENERS ---
+
+            // Sidebar Toggling
+            desktopMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            menuBtn.addEventListener('click', () => {
+                mobileSidebarOverlay.classList.remove('hidden');
+                mobileSidebar.classList.remove('-translate-x-full');
+            });
+
+            closeSidebarBtn.addEventListener('click', () => {
+                mobileSidebarOverlay.classList.add('hidden');
+                mobileSidebar.classList.add('-translate-x-full');
+            });
+            mobileSidebarOverlay.addEventListener('click', () => {
+                mobileSidebarOverlay.classList.add('hidden');
+                mobileSidebar.classList.add('-translate-x-full');
+            });
+
+            // Navigation
+            document.querySelectorAll('#desktop-nav, #mobile-nav').forEach(nav => {
+                nav.addEventListener('click', (e) => {
+                    const target = e.target.closest('a');
+                    if (target && target.dataset.viewId) {
+                        switchView(target.dataset.viewId);
+                        if(window.innerWidth < 1280) { // xl breakpoint
+                           mobileSidebarOverlay.classList.add('hidden');
+                           mobileSidebar.classList.add('-translate-x-full');
+                        }
+                    }
+                });
+            });
+            
+            // Top Bar Actions
+            copyLinkBtn.addEventListener('click', () => {
+                // Use the new robust copy function
+                copyToClipboard(window.location.href);
+            });
+            
+            // --- [FIXED] More robust fullscreen function with vendor prefixes ---
+            pageFullscreenBtn.addEventListener('click', () => {
+                const docEl = document.documentElement;
+                // Standard and vendor-prefixed request methods
+                const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+                // Standard and vendor-prefixed exit methods
+                const exitFullScreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+                
+                // Check if currently in fullscreen (with vendor prefixes)
+                const isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+
+                if (!isFullscreen) {
+                    if (requestFullScreen) {
+                        requestFullScreen.call(docEl).catch(err => {
+                            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                        });
+                    }
+                } else {
+                    if (exitFullScreen) {
+                        exitFullScreen.call(document);
+                    }
+                }
+            });
+
+            gameFullscreenBtn.addEventListener('click', () => {
+                // This function should already work if the iframe has `allow="fullscreen"`
+                if (gameFrame && gameFrame.requestFullscreen) {
+                    gameFrame.requestFullscreen().catch(err => {
+                         console.error(`Error with game fullscreen: ${err.message} (${err.name})`);
+                    });
+                }
+            });
+
+            darkModeBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('darkMode', isDark);
+            });
+
+            // Comments
+            postCommentBtn.addEventListener('click', () => {
+                const text = commentInput.value.trim();
+                if (text) {
+                    comments.push({
+                        id: Date.now(),
+                        text: text,
+                        likes: 0,
+                        dislikes: 0
+                    });
+                    saveComments();
+                    renderComments();
+                    commentInput.value = '';
+                }
+            });
+
+            commentsList.addEventListener('click', (e) => {
+                const target = e.target.closest('.action-btn');
+                if (!target) return;
+                
+                const action = target.dataset.action;
+                const id = parseInt(target.dataset.id, 10);
+                const comment = comments.find(c => c.id === id);
+                if(!comment) return;
+
+                if (action === 'like') {
+                    comment.likes = (comment.likes || 0) + 1;
+                } else if (action === 'dislike') {
+                    comment.dislikes = (comment.dislikes || 0) + 1;
+                } else if (action === 'delete') {
+                    showModal(id);
+                    return; // Don't re-render yet
+                }
+                
+                saveComments();
+                renderComments(searchBar.value);
+            });
+            
+            searchBar.addEventListener('input', () => {
+                renderComments(searchBar.value);
+            });
+
+            // Modal
+            modalConfirmBtn.addEventListener('click', () => {
+                if(commentToDeleteId) {
+                    comments = comments.filter(c => c.id !== commentToDeleteId);
+                    saveComments();
+                    renderComments(searchBar.value);
+                }
+                hideModal();
+            });
+
+            modalCancelBtn.addEventListener('click', hideModal);
+
+        });
+    </script>
+</body>
+</html>
